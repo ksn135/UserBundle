@@ -4,7 +4,7 @@ namespace Admingenerator\UserBundle\Twig\TokenParser;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class ExtendsMyConfiguredLayoutTokenParser extends \Twig_TokenParser
+class ExtendsMyConfiguredLayoutTokenParser extends \Twig\TokenParser\AbstractTokenParser    
 {
     protected $container;
 
@@ -16,22 +16,22 @@ class ExtendsMyConfiguredLayoutTokenParser extends \Twig_TokenParser
     /**
      * Parses a token and returns a node.
      *
-     * @param \Twig_Token $token A \Twig_Token instance
+     * @param \Twig\Token $token A \Twig\Token instance
      *
-     * @return \Twig_NodeInterface A \Twig_NodeInterface instance
+     * @return \Twig\NodeInterface A \Twig\NodeInterface instance
      */
-    public function parse(\Twig_Token $token)
+    public function parse(\Twig\Token $token)
     {
         if (null !== $this->parser->getParent()) {
-            throw new \Twig_Error_Syntax('Multiple extends tags are forbidden', $token->getLine());
+            throw new \Twig\Error\SyntaxError('Multiple extends tags are forbidden', $token->getLine());
         }
 
         $tpl = $this->container->getParameter($this->parser->getCurrentToken()->getValue());
 
         $this->parser->getExpressionParser()->parseExpression();
 
-        $this->parser->setParent(new \Twig_Node_Expression_Constant($tpl,$token->getLine()));
-        $this->parser->getStream()->expect(\Twig_Token::BLOCK_END_TYPE);
+        $this->parser->setParent(new \Twig\Node\Expression\ConstantExpression($tpl,$token->getLine()));
+        $this->parser->getStream()->expect(\Twig\Token::BLOCK_END_TYPE);
 
         return null;
     }

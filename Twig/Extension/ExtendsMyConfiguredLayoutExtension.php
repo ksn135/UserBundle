@@ -6,13 +6,13 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Admingenerator\UserBundle\Twig\TokenParser\ExtendsMyConfiguredLayoutTokenParser;
 
-class ExtendsMyConfiguredLayoutExtension extends \Twig_Extension
+class ExtendsMyConfiguredLayoutExtension extends \Twig\Extension\AbstractExtension
 {
     protected $loader;
 
     protected $container;
 
-    public function __construct(\Twig_Loader_Filesystem $loader)
+    public function __construct(\Twig\Loader\FilesystemLoader $loader)
     {
         $this->loader = $loader;
     }
